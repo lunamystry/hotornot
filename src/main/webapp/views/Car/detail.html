@@ -1,0 +1,65 @@
+<header ng-switch on="$location.path().indexOf('/Cars/new') > -1">
+    <h3 ng-switch-when="true">Create a new Car</h3>
+    <h3 ng-switch-when="false">View or edit Car</h3>
+</header>
+<form id="CarForm" name="CarForm" class="form-horizontal" role="form">
+
+
+    <div class="form-group" ng-class="{'has-error': CarForm.name.$invalid}">
+        <label for="name" class="col-sm-2 control-label">Name</label>
+        <div id="nameControls" class="col-sm-10">
+            <input id="name" name="name" type="text" class="form-control" ng-model="car.name"
+                   placeholder="Enter the Car Name"></input>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': CarForm.imageUrl.$invalid}">
+        <label for="imageUrl" class="col-sm-2 control-label">Image URL</label>
+        <div id="imageUrlControls" class="col-sm-10">
+            <a class="img-responsive" href="{{car.imageUrl}}">
+                <img class="img-responsive" src="{{car.imageUrl}}"/>
+            </a>
+            <input id="imageUrl" name="imageUrl" type="text" class="form-control" ng-model="car.imageUrl"
+                   placeholder="Enter the Car Image URL"></input>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': CarForm.description.$invalid}">
+        <label for="description" class="col-sm-2 control-label">Description</label>
+        <div id="descriptionControls" class="col-sm-10">
+            <textarea id="description" name="description" type="text" ng-maxlength="2000" class="form-control"
+                      ng-model="car.description" placeholder="Enter the Car Description"></textarea>
+            <span class="help-block error" ng-show="CarForm.description.$error.maxlength">maximum length is 2000</span>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': CarForm.rating.$invalid}">
+        <label for="rating" class="col-sm-2 control-label">Rating</label>
+        <div id="ratingControls" class="col-sm-10">
+            <div class="form-check form-check-inline">
+                <span ng-repeat="i in getNumber(number) track by $index" >
+                <input  class="form-check-input" type="radio" id="inlineRadio{{$index + 1}}" value="{{$index + 1}}" ng-model="car.rating">
+                <label class="form-check-label" for="inlineRadio{{$index + 1}}">{{$index + 1}}</label>
+                </span>
+            </div>
+            <span class="help-block error" ng-show="CarForm.rating.$error.number">not a number</span>
+            <span class="help-block error" ng-show="CarForm.rating.$error.min">minimum allowed is 1</span>
+            <span class="help-block error" ng-show="CarForm.rating.$error.max">maximum allowed is 10</span>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button id="saveCar" name="saveCar" class="btn btn-primary" ng-disabled="isClean() || CarForm.$invalid"
+                    ng-click="save()"><span class="glyphicon glyphicon-ok-sign"></span> Save
+            </button>
+            <button id="cancel" name="cancel" class="btn btn-default" ng-click="cancel()"><span
+                    class="glyphicon glyphicon-remove-sign"></span> Cancel
+            </button>
+            <button id="deleteCar" name="deleteCar" class="btn btn-danger" ng-show="car.id" ng-click="remove()"><span
+                    class="glyphicon glyphicon-trash"></span> Delete
+            </button>
+        </div>
+    </div>
+</form>

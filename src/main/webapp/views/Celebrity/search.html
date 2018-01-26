@@ -1,0 +1,105 @@
+<div class="form-horizontal">
+    <h3>Create a new Celebrity</h3>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-sm-2">
+            <a id="Create" name="Create" class="btn btn-primary" href="#/Celebrities/new"><span
+                    class="glyphicon glyphicon-plus-sign"></span> Create</a>
+        </div>
+    </div>
+</div>
+<hr/>
+<div>
+    <h3>Search for Celebrities</h3>
+    <form id="CelebritySearch" class="form-horizontal">
+
+
+        <div class="form-group">
+            <label for="firstname" class="col-sm-2 control-label">First name</label>
+            <div class="col-sm-10">
+                <input id="firstname" name="firstname" class="form-control" type="text" ng-model="search.firstname"
+                       placeholder="Enter the Celebrity First name"></input>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="lastname" class="col-sm-2 control-label">Last name</label>
+            <div class="col-sm-10">
+                <input id="lastname" name="lastname" class="form-control" type="text" ng-model="search.lastname"
+                       placeholder="Enter the Celebrity Last name"></input>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="imageUrl" class="col-sm-2 control-label">Image URL</label>
+            <div class="col-sm-10">
+                <input id="imageUrl" name="imageUrl" class="form-control" type="text" ng-model="search.imageUrl"
+                       placeholder="Enter the Celebrity Image Url"></input>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="bio" class="col-sm-2 control-label">Bio</label>
+            <div class="col-sm-10">
+                <input id="bio" name="bio" class="form-control" type="text" ng-model="search.bio"
+                       placeholder="Enter the Celebrity Bio"></input>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="rating" class="col-sm-2 control-label">Rating</label>
+            <div class="col-sm-10">
+                <input id="rating" name="rating" class="form-control" type="text" ng-model="search.rating"
+                       placeholder="Enter the Celebrity Rating"></input>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-sm-10">
+                <a id="Search" name="Search" class="btn btn-primary" ng-click="performSearch()"><span
+                        class="glyphicon glyphicon-search"></span> Search</a>
+            </div>
+        </div>
+    </form>
+</div>
+<div id="search-results">
+    <div class="table-responsive">
+        <table class="table table-responsive table-bordered table-striped clearfix">
+            <thead>
+            <tr>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Image</th>
+                <th>Bio</th>
+                <th>Rating</th>
+            </tr>
+            </thead>
+            <tbody id="search-results-body">
+            <tr ng-repeat="result in filteredResults | startFrom:currentPage*pageSize | limitTo:pageSize">
+                <td><a href="#/Celebrities/edit/{{result.id}}">{{result.firstname}}</a></td>
+                <td><a href="#/Celebrities/edit/{{result.id}}">{{result.lastname}}</a></td>
+                <td>
+                    <a class="img-responsive" href="#/Celebrities/edit/{{result.id}}">
+                        <img class="img-responsive" src="{{result.imageUrl}}"/>
+                    </a>
+                </td>
+                <td><a href="#/Celebrities/edit/{{result.id}}">{{result.bio}}</a></td>
+                <td><a href="#/Celebrities/edit/{{result.id}}">{{result.rating}}</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <ul class="pagination pagination-centered">
+        <li ng-class="{disabled:currentPage == 0}">
+            <a id="prev" href ng-click="previous()">«</a>
+        </li>
+        <li ng-repeat="n in pageRange" ng-class="{active:currentPage == n}" ng-click="setPage(n)">
+            <a href ng-bind="n + 1">1</a>
+        </li>
+        <li ng-class="{disabled: currentPage == (numberOfPages() - 1)}">
+            <a id="next" href ng-click="next()">»</a>
+        </li>
+    </ul>
+
+</div>

@@ -1,0 +1,38 @@
+project-new --named hotornot --top-level-package com.bbd --type war --final-name hotornot;
+
+jpa-setup --provider Hibernate --container WILDFLY;
+
+jpa-new-entity --named Celebrity --target-package com.bbd;
+jpa-new-field --named firstname;
+jpa-new-field --named lastname;
+jpa-new-field --named imageUrl --type java.net.URL;
+jpa-new-field --named bio --length 2000;
+jpa-new-field --named rating --type java.lang.Integer;
+
+constraint-add --on-property firstname --constraint NotNull;
+constraint-add --on-property lastname --constraint NotNull;
+constraint-add --on-property bio --constraint Size --max 2000;
+constraint-add --on-property rating --constraint Min --value 1;
+constraint-add --on-property rating --constraint Max --value 10;
+
+jpa-new-entity --named Car --target-package com.bbd;
+jpa-new-field --named name;
+jpa-new-field --named imageUrl --type java.net.URL;
+jpa-new-field --named description --length 2000;
+jpa-new-field --named rating --type java.lang.Integer;
+
+constraint-add --on-property rating --constraint Min --value 1;
+constraint-add --on-property rating --constraint Max --value 10;
+constraint-add --on-property description --constraint Size --max 2000;
+
+cd ..;
+
+rest-setup;
+rest-generate-endpoints-from-entities --targets com.bbd.*;
+
+scaffold-setup --provider AngularJS ;
+scaffold-generate --provider AngularJS --targets com.bbd.*;
+cd ~~;
+
+build;
+
